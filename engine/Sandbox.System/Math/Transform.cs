@@ -345,10 +345,10 @@ public struct Transform : System.IEquatable<Transform>, IInterpolator<Transform>
 	}
 
 	#region equality
-	public static bool operator ==( Transform left, Transform right ) => left.Equals( right );
-	public static bool operator !=( Transform left, Transform right ) => !(left == right);
+	public static bool operator ==( Transform left, Transform right ) => left.AlmostEqual( right );
+	public static bool operator !=( Transform left, Transform right ) => !left.AlmostEqual( right );
 	public readonly override bool Equals( object obj ) => obj is Transform o && Equals( o );
-	public readonly bool Equals( Transform o ) => (Position, Scale, Rotation) == (o.Position, o.Scale, o.Rotation);
+	public readonly bool Equals( Transform o ) => Position.Equals( o.Position ) && Scale.Equals( o.Scale ) && Rotation.Equals( o.Rotation );
 	public readonly override int GetHashCode() => HashCode.Combine( Position, Scale, Rotation );
 
 	/// <summary>

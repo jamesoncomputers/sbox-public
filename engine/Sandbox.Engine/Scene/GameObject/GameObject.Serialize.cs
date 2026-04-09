@@ -752,7 +752,10 @@ public partial class GameObject
 			tx.Position = node[JsonKeys.Position]?.Deserialize<Vector3>() ?? Vector3.Zero;
 			tx.Rotation = node[JsonKeys.Rotation]?.Deserialize<Rotation>() ?? Rotation.Identity;
 			tx.Scale = node[JsonKeys.Scale]?.Deserialize<Vector3>() ?? Vector3.One;
-			LocalTransform = tx;
+
+			// Use exact (bitwise) equality to avoid Vector3.operator== swallowing tiny
+			// differences within its 0.0001 AlmostEqual tolerance during deserialization.
+			Transform.SetLocalTransformExact( tx );
 		}
 	}
 
